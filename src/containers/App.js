@@ -6,8 +6,9 @@ import gql from 'graphql-tag';
 const GET_USERS = gql`
   {
     users {
-      id
-      name
+      user_id
+      username
+      password
     }
   }
 `;
@@ -22,7 +23,7 @@ const App = () => (
           <ul>
             {
               data.users.map(user => (
-                <li key={user.id}>{user.name}</li>
+                <li key={user.user_id}>{user.username}</li>
               ))
             }
           </ul>

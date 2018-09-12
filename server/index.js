@@ -11,6 +11,7 @@ const {
   port,
 } = config;
 
+const setupDB = require('./setup/setupDB');
 const setupGraphql = require('./setup/setupGraphql');
 const setupBase = isDev ? require('./setup/setupDev') : require('./setup/setupProd');
 
@@ -24,26 +25,32 @@ const setupBase = isDev ? require('./setup/setupDev') : require('./setup/setupPr
 
 const app = express();
 
-// Your api or static setting like app.use('/static', express.static(outputPath));
-// 반드시 graphql Setup이 먼저 되어야함. endpoint를 선점하기 위해서.
-setupGraphql(app);
-setupBase(app);
+const setup = async () => {
+  const db = await setupDB();
+  const context = { db };
+  // Your api or static setting like app.use('/static', express.static(outputPath));
+  // 반드시 graphql Setup이 먼저 되어야함. endpoint를 선점하기 위해서.
+  setupGraphql(app, context);
+  setupBase(app);
+};
 // get the intended host and port number, use localhost and port 3000 if not provided
 
-app.listen(port, host, (err) => {
-  if (err) {
-    console.error(chalk.red(err));
-  }
-  if (isDev) {
-    console.log(`Server started in Development! ${chalk.green('✓')}`);
-  }
-  else {
-    console.log(`Server started! ${chalk.green('✓')}`);
-  }
+setup().then(() => {
+  app.listen(port, host, (err) => {
+    if (err) {
+      console.error(chalk.red(err));
+    }
+    if (isDev) {
+      console.log(`Server started in Development! ${chalk.green('✓')}`);
+    }
+    else {
+      console.log(`Server started! ${chalk.green('✓')}`);
+    }
 
-  console.log(`
-      ${chalk.bold('Server is Running on:')}
-      ${chalk.magenta(`http://${host}:${port}`)}
-      ${chalk.blue(`Press ${chalk.italic('CTRL-C')} to stop`)}
-    `);
+    console.log(`
+        ${chalk.bold('Server is Running on:')}
+        ${chalk.magenta(`http://${host}:${port}`)}
+        ${chalk.blue(`Press ${chalk.italic('CTRL-C')} to stop`)}
+      `);
+  });
 });
