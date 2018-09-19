@@ -7,9 +7,15 @@ const rootQuery = `
     _empty: String
   }
 `;
+const rootMutaition = `
+  type Mutation {
+    _empty: String
+  }
+`;
+
 const rootResolver = {};
 
 module.exports = makeExecutableSchema({
-  typeDefs: [rootQuery, User],
+  typeDefs: [rootQuery, rootMutaition, User],
   resolvers: [rootResolver, userResolver],
 });

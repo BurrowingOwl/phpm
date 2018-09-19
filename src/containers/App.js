@@ -2,6 +2,7 @@ import React from 'react';
 import { hot } from 'react-hot-loader';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import Login from './Login';
 
 const GET_USERS = gql`
   {
@@ -13,24 +14,27 @@ const GET_USERS = gql`
   }
 `;
 const App = () => (
-  <Query query={GET_USERS}>
-    {
-      ({ data, loading, error }) => {
-        if (error) return <div>Error! {error.message}</div>;
-        if (loading) return <div>...loading</div>;
+  <div>
+    <Query query={GET_USERS}>
+      {
+        ({ data, loading, error }) => {
+          if (error) return <div>Error! {error.message}</div>;
+          if (loading) return <div>...loading</div>;
 
-        return (
-          <ul>
-            {
-              data.users.map(user => (
-                <li key={user.user_id}>{user.username}</li>
-              ))
-            }
-          </ul>
-        );
+          return (
+            <ul>
+              {
+                data.users.map(user => (
+                  <li key={user.user_id}>{user.username}</li>
+                ))
+              }
+            </ul>
+          );
+        }
       }
-    }
-  </Query>
+    </Query>
+    <Login />
+  </div>
 );
 
 export default hot(module)(App);
