@@ -2,7 +2,7 @@ import React from 'react';
 import { hot } from 'react-hot-loader';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Header, Login } from '.';
+import { Header, Login, SignUp } from '.';
 import { Logo } from '../components';
 
 const GET_USERS = gql`
@@ -33,6 +33,7 @@ const App = () => (
       }}
     </Query>
     <Login />
+    <SignUp />
   </div>
 );
 

@@ -19,7 +19,8 @@ exports.typeDef = `
   }
 
   extend type Mutation {
-    login(user_id: String!, password: String!): AuthPayload
+    login(user_id: String!, password: String!): AuthPayload,
+    signup(user_id: String!, password: String!, username: String!, phone: String!, email: String!, zip_code: String, address: String): AuthPayload
   }
 `;
 
@@ -53,6 +54,13 @@ exports.resolver = {
         token: jwt.sign({ userId: user.id }, 'Taehee is so Sexy'),
         user,
       };
-    }
-  }
+    },
+    signup: (_, { user_id, password, username, phone, email, zip_code, address }, { db }) => {
+      const res = db.query('INSERT INTO public.user (user_id, password, username, phone, email, zip_code, address ) VALUES ($1, $2, $3, $4, $5, $6, $7)', [user_id, password, username, phone, email, zip_code, address]);
+      return {
+        token: jwt.sign({ userId: user_id }, 'Taehee is so Sexy'),
+        res,
+      };
+    },
+  },
 };
