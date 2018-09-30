@@ -50,7 +50,7 @@ class SignUp extends Component {
           fullRoadAddr += extraRoadAddr;
         }
         this.setState({ zip_code: data.zonecode, road_address: fullRoadAddr, address_detail: data.jibunAddress });
-      }
+      },
     }).open();
   }
   handleSignUp = signup => () => {

@@ -7,11 +7,13 @@ import theme from './styles/muiTheme';
 import { App } from './containers';
 import ApolloClient from './apollo';
 
+
 const Root = () => (
+
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <ApolloProvider client={ApolloClient}>
-      <App />
+      <App path="/" />
     </ApolloProvider>
   </MuiThemeProvider>
 );

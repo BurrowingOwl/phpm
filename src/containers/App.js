@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router } from '@reach/router';
 import { hot } from 'react-hot-loader';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -14,26 +15,31 @@ const GET_USERS = gql`
     }
   }
 `;
+const Home = () => (
+  <Query query={GET_USERS}>
+    {({ data, loading, error }) => {
+      if (error) return <div>Error! {error.message}</div>;
+      if (loading) return <div>...loading</div>;
+
+      return (
+        <ul>
+          {data.users.map(user => (
+            <li key={user.user_id}>{user.username}</li>
+          ))}
+        </ul>
+      );
+    }}
+  </Query>
+);
 const App = () => (
   <div>
     <Header />
     <Logo />
-    <Query query={GET_USERS}>
-      {({ data, loading, error }) => {
-        if (error) return <div>Error! {error.message}</div>;
-        if (loading) return <div>...loading</div>;
-
-        return (
-          <ul>
-            {data.users.map(user => (
-              <li key={user.user_id}>{user.username}</li>
-            ))}
-          </ul>
-        );
-      }}
-    </Query>
-    <Login />
-    <SignUp />
+    <Router>
+      <Home path="/" />
+      <Login path="/login" />
+      <SignUp path="/signup" />
+    </Router>
   </div>
 );
 

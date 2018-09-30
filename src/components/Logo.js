@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from '@reach/router';
 
 const Container = styled.div`
   width: 100%;
@@ -10,8 +11,8 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
+  color: #000;
   background-color: white;
-
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 `;
@@ -26,10 +27,12 @@ const SubTitle = styled.h2`
 `;
 const Logo = () => {
   return (
-    <Container>
-      <Title>PHPM</Title>
-      <SubTitle>핸드폰 판매 전문점</SubTitle>
-    </Container>
+    <Link to="/" style={{ textDecoration: 'none' }}>
+      <Container>
+        <Title>PHPM</Title>
+        <SubTitle>핸드폰 판매 전문점</SubTitle>
+      </Container>
+    </Link>
   );
 };
 

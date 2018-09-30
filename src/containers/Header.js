@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from '@reach/router';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -14,8 +15,12 @@ class Header extends React.Component {
           <IconButton>
             <MenuIcon />
           </IconButton>
-          <Button>로그인</Button>
-          <Button>회원가입</Button>
+          <Link to="login" style={{ textDecoration: 'none' }}>
+            <Button>로그인</Button>
+          </Link>
+          <Link to="signup" style={{ textDecoration: 'none' }}>
+            <Button>회원가입</Button>
+          </Link>
           <Button>마이 페이지</Button>
           <div style={{ flexGrow: 1 }} />
           <Search />
