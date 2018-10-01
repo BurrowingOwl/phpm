@@ -34,22 +34,26 @@ class SignUp extends Component {
   execDaumPostcode = () => {
     new daum.Postcode({
       oncomplete: (data) => {
-        let fullRoadAddr = data.roadAddress;
-        let extraRoadAddr = ''; // 도로명 조합형 주소 변수
+        let fullAddr = data.roadAddress;
+        let extraAddr = '';
 
-        if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
-          extraRoadAddr += data.bname;
+        if (data.userSelectedType === 'R') {
+          fullAddr = data.roadAddress;
         }
-        if (data.buildingName !== '' && data.apartment === 'Y') {
-          extraRoadAddr += (extraRoadAddr !== '' ? `, ${data.buildingName}` : data.buildingName);
+        else {
+          fullAddr = data.jibunAddress;
         }
-        if (extraRoadAddr !== '') {
-          extraRoadAddr = `(${extraRoadAddr})`;
+
+        if (data.userSelectedType === 'R') {
+          if (data.bname !== '') {
+            extraAddr += data.bname;
+          }
+          if (data.buildingName !== '') {
+            extraAddr += (extraAddr !== '' ? `, ${data.buildingName}` : data.buildingName);
+          }
+          fullAddr += (extraAddr !== '' ? ` (${extraAddr})` : '');
         }
-        if (fullRoadAddr !== '') {
-          fullRoadAddr += extraRoadAddr;
-        }
-        this.setState({ zip_code: data.zonecode, road_address: fullRoadAddr, address_detail: data.jibunAddress });
+        this.setState({ zip_code: data.zonecode, road_address: fullAddr });
       },
     }).open();
   }
