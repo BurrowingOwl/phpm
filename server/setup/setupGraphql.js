@@ -1,12 +1,36 @@
 const graphqlHTTP = require('express-graphql');
+const jwt = require('jsonwebtoken');
 const schema = require('../graphql');
 
+const authMiddleware = (req, res, next) => {
+  const token = req.cookies.jwt;
+  console.log(token);
+  const handleInvalid = () => {
+    res.clearCookie('jwt');
+    req.userId = null;
+    return next();
+  };
+  if (!token) {
+    return handleInvalid();
+  }
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return handleInvalid();
+    }
+    console.log(decoded);
+    req.userId = decoded.userId;
+    return next();
+  });
+};
+
 module.exports = (app, context = {}) => {
-  app.use('/graphql',
-    graphqlHTTP({
+  app.use(
+    '/graphql',
+    authMiddleware,
+    graphqlHTTP(req => ({
       schema,
-      context,
+      context: { ...context, userId: req.userId },
       graphiql: process.env.NODE_ENV === 'development',
-    })
+    })),
   );
 };
