@@ -7,9 +7,9 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 
 const SIGNUP = gql`
-  mutation SignUp($user_id: String!, $password: String!, $username: String!, $phone: String!, $email: String!, $zip_code: String, $address: String) {
-    signup(user_id: $user_id, password: $password, username: $username, phone: $phone, email: $email, zip_code: $zip_code, address: $address) {
-      token
+  mutation SignUp($userInput: SignupInput) {
+    signup(userInput: $userInput) {
+      user
     }
   }
 `;
@@ -60,7 +60,7 @@ class SignUp extends Component {
   handleSignUp = signup => () => {
     const { user_id, password, username, phone, email, zip_code, road_address, address_detail } = this.state;
     const address = road_address + address_detail;
-    signup({ variables: { user_id, password, username, phone, email, zip_code, address } })
+    signup({ variables: { userInput: { user_id, password, username, phone, email, zip_code, address } } })
       .then(() => console.log('hey'));
   }
 

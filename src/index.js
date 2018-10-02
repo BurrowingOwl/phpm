@@ -9,7 +9,6 @@ import ApolloClient from './apollo';
 
 
 const Root = () => (
-
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <ApolloProvider client={ApolloClient}>
