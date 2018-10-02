@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
-import { Mutation } from 'react-apollo';
-import gql from 'graphql-tag';
 import { AUTH_TOKEN } from '../constants';
-
-const LOGIN_MUTATION = gql`
-  mutation Login($user_id: String!, $password: String!) {
-    login(user_id: $user_id, password: $password) {
-      token
-    }
-  }
-`;
+import { login } from '../api/auth';
 
 class Login extends Component {
   state = {
-    login: false,
+    isLoggedIn: false,
     user_id: '',
     password: '',
   }
@@ -25,9 +16,20 @@ class Login extends Component {
   _saveUserData = token => {
     localStorage.setItem(AUTH_TOKEN, token);
   }
-
+  _handleLogin = async () => {
+    const { user_id, password } = this.state;
+    try {
+      await login({ user_id, password });
+      this.setState({
+        isLoggedIn: true,
+      });
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
   render() {
-    const { login, user_id, password } = this.state;
+    const { isLoggedIn, user_id, password } = this.state;
     return (
       <div>
         <div>
@@ -45,17 +47,9 @@ class Login extends Component {
           />
         </div>
         <div className="flex mt3">
-          <Mutation
-            mutation={LOGIN_MUTATION}
-            variables={{ user_id, password }}
-            onCompleted={data => this._confirm(data)}
-          >
-            {mutation => (
-              <div className="pointer mr2 button" onClick={mutation}>
-                {login ? 'logout' : 'login'}
-              </div>
-            )}
-          </Mutation>
+          <div className="pointer mr2 button" onClick={this._handleLogin}>
+            {isLoggedIn ? 'logout' : 'login'}
+          </div>
         </div>
       </div>
     );

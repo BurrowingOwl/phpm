@@ -4,7 +4,6 @@ const schema = require('../graphql');
 
 const authMiddleware = (req, res, next) => {
   const token = req.cookies.jwt;
-  console.log(token);
   const handleInvalid = () => {
     res.clearCookie('jwt');
     req.userId = null;
@@ -13,11 +12,10 @@ const authMiddleware = (req, res, next) => {
   if (!token) {
     return handleInvalid();
   }
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  return jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return handleInvalid();
     }
-    console.log(decoded);
     req.userId = decoded.userId;
     return next();
   });

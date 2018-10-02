@@ -8,7 +8,6 @@ env.config();
 
 const { HOST, PORT } = process.env;
 const isDev = process.env.NODE_ENV !== 'production';
-const setupDB = require('./setup/setupDB');
 const setupRoute = require('./setup/setupRoute');
 const setupGraphql = require('./setup/setupGraphql');
 const setupBase = isDev
@@ -18,7 +17,6 @@ const setupBase = isDev
 const app = express();
 
 const setup = async () => {
-  await setupDB();
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cookieParser());
