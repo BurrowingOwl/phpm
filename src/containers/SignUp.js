@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const SIGNUP = gql`
   mutation SignUp($userInput: SignupInput) {
@@ -13,7 +14,6 @@ const SIGNUP = gql`
     }
   }
 `;
-
 class SignUp extends Component {
   state = {
     user_id: '',
@@ -26,10 +26,57 @@ class SignUp extends Component {
     zip_code: '',
     road_address: '',
     address_detail: '',
+    error: {
+      user_id: '',
+      password: '',
+      password_confirm: '',
+      username: '',
+      phone: '',
+      email: '',
+      email_subscribe: '',
+      zip_code: '',
+      road_address: '',
+      address_detail: '',
+    },
   }
   _confirm = async data => {
     const { token } =  data.login;
     this._saveUserData(token);
+  }
+  validation = () => {
+    const { user_id, password, password_confirm, username, phone, email, zip_code, road_address, address_detail } = this.state;
+    const defaultError = {
+      user_id: '',
+      password: '',
+      password_confirm: '',
+      username: '',
+      phone: '',
+      email: '',
+      email_subscribe: '',
+      zip_code: '',
+      road_address: '',
+      address_detail: '',
+    };
+    const newError = {};
+    if (password !== password_confirm) newError.password = '비밀번호와 비밀번호 확인이 일치하지 않습니다';
+    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+    if (!phone.match(phoneRegex)) newError.phone = '전화번호가 올바르게 입력되지 않았습니다';
+    const emailRegex = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    if (!email.match(emailRegex)) newError.email = '이메일이 올바르게 입력되지 않았습니다';
+    if (user_id.length === 0) newError.user_id = '아이디를 입력해주세요';
+    if (password.length === 0) newError.password = '비밀번호를 입력해주세요';
+    if (password_confirm.length === 0) newError.password_confirm = '비밀번호 확인을 입력해주세요';
+    if (username.length === 0) newError.username = '이름을 입력해주세요';
+    if (phone.length === 0) newError.phone = '전화번호를 입력해주세요';
+    if (email.length === 0) newError.email = '이메일을 입력해주세요';
+    if (zip_code.length === 0) newError.zip_code = '우편번호 입력해주세요';
+    if (road_address.length === 0) newError.road_address = '주소를 입력해주세요';
+    if (address_detail.length === 0) newError.address_detail = '상세주소를 입력해주세요';
+    if (Object.keys(newError).length > 0) {
+      this.setState({ error: Object.assign(defaultError, newError) });
+      return false;
+    }
+    return true;
   }
   execDaumPostcode = () => {
     new daum.Postcode({
@@ -60,12 +107,12 @@ class SignUp extends Component {
   handleSignUp = signup => () => {
     const { user_id, password, username, phone, email, zip_code, road_address, address_detail } = this.state;
     const address = road_address + address_detail;
-    signup({ variables: { userInput: { user_id, password, username, phone, email, zip_code, address } } })
-      .then(() => console.log('hey'));
+    if (!this.validation()) return;
+    signup({ variables: { userInput: { user_id, password, username, phone, email, zip_code, address } } });
   }
 
   render() {
-    const { user_id, password, password_confirm, username, phone, email, email_subscribe, zip_code, road_address, address_detail } = this.state;
+    const { user_id, password, password_confirm, username, phone, email, email_subscribe, zip_code, road_address, address_detail, error } = this.state;
     return (
       <Mutation mutation={SIGNUP}>
         {
@@ -80,6 +127,7 @@ class SignUp extends Component {
                   margin="normal"
                   fullWidth={true}
                 />
+                { error.user_id && <FormHelperText error={true}>{error.user_id}</FormHelperText>}
               </div>
               <div>
                 <TextField
@@ -90,6 +138,7 @@ class SignUp extends Component {
                   margin="normal"
                   fullWidth={true}
                 />
+                { error.password && <FormHelperText error={true}>{error.password}</FormHelperText> }
               </div>
               <div>
                 <TextField
@@ -100,6 +149,7 @@ class SignUp extends Component {
                   margin="normal"
                   fullWidth={true}
                 />
+                { error.password_confirm && <FormHelperText error={true}>{error.password_confirm}</FormHelperText> }
               </div>
               <div>
                 <TextField
@@ -110,6 +160,7 @@ class SignUp extends Component {
                   margin="normal"
                   fullWidth={true}
                 />
+                { error.username && <FormHelperText error={true}>{error.username}</FormHelperText> }
               </div>
               <div>
                 <TextField
@@ -121,6 +172,7 @@ class SignUp extends Component {
                   fullWidth={true}
                   placeholder="010-0000-0000"
                 />
+                { error.phone && <FormHelperText error={true}>{error.phone}</FormHelperText> }
               </div>
               <div>
                 <TextField
@@ -132,6 +184,7 @@ class SignUp extends Component {
                   fullWidth={true}
                   placeholder="userId@email.com"
                 />
+                { error.email && <FormHelperText error={true}>{error.email}</FormHelperText> }
               </div>
               <div>
                 <TextField
@@ -146,6 +199,7 @@ class SignUp extends Component {
                   우편번호찾기
                 </Button>
                 <br />
+                { error.zip_code && <FormHelperText error={true}>{error.zip_code}</FormHelperText> }
                 <TextField
                   id="road_address"
                   label="주소"
@@ -161,6 +215,8 @@ class SignUp extends Component {
                   onChange={e => this.setState({ address_detail: e.target.value })}
                   style={{ marginRight: 20, width: '50%' }}
                 />
+                <FormHelperText error={true} style={{ marginRight: 20, width: '30%', display: 'inline-block' }}>{error.road_address}</FormHelperText>
+                <FormHelperText error={true} style={{ marginRight: 20, width: '50%', display: 'inline-block' }}>{error.address_detail}</FormHelperText>
               </div>
               <div>
                 <FormControlLabel
