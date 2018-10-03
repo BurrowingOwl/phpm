@@ -6,8 +6,10 @@ const authApi = axios.create({
 
 const login = (user = {}) => authApi.post('login', user);
 const logout = () => authApi.post('logout');
+const verify = () => authApi.get('verify');
 
 export {
   login,
-  logout
+  logout,
+  verify
 };

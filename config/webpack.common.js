@@ -13,7 +13,8 @@ module.exports = (option) => ({
   target: 'web',
   mode: option.mode,
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.json'],
+    // extensions에 mjs 추가 (graphql)
+    extensions: ['*', '.mjs', '.js', '.jsx', '.json'],
   },
   entry: option.entry,
   devtool: option.devtool,

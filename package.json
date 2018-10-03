@@ -52,7 +52,9 @@
     "@reach/router": "^1.2.1",
     "apollo-cache-inmemory": "^1.2.9",
     "apollo-client": "^2.4.1",
+    "apollo-link": "^1.2.3",
     "apollo-link-http": "^1.5.4",
+    "apollo-link-state": "^0.4.2",
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -66,9 +68,11 @@
     "graphql-tools": "^3.1.1",
     "jsonwebtoken": "^8.3.0",
     "pg": "^7.4.3",
+    "prop-types": "^15.6.2",
     "react": "^16.5.0",
     "react-apollo": "^2.1.11",
     "react-dom": "^16.5.0",
+    "regenerator-runtime": "^0.12.1",
     "styled-components": "^3.4.9"
   }
 }

@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import { AUTH_TOKEN } from '../constants';
-import { login } from '../api/auth';
+import { navigate } from '@reach/router';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+// TODO: 모듈화
 
+// 타입지정이 별 의미 없는 듯
+const LOCAL_LOGIN = gql`
+  mutation Login($user_id: String!, $password: String!) {
+    login(user_id: $user_id, password: $password) @client
+  }
+`;
 class Login extends Component {
   state = {
     isLoggedIn: false,
@@ -12,20 +20,14 @@ class Login extends Component {
     const { token } =  data.login;
     this._saveUserData(token);
   }
-
-  _saveUserData = token => {
-    localStorage.setItem(AUTH_TOKEN, token);
-  }
-  _handleLogin = async () => {
+  _handleLogin = (login) => async () => {
     const { user_id, password } = this.state;
     try {
-      await login({ user_id, password });
-      this.setState({
-        isLoggedIn: true,
-      });
+      await login({ variables: { user_id, password } });
+      navigate('/');
     }
     catch (err) {
-      console.error(err);
+      // error handling
     }
   }
   render() {
@@ -46,11 +48,17 @@ class Login extends Component {
             placeholder="Your password"
           />
         </div>
-        <div className="flex mt3">
-          <div className="pointer mr2 button" onClick={this._handleLogin}>
-            {isLoggedIn ? 'logout' : 'login'}
-          </div>
-        </div>
+        <Mutation mutation={LOCAL_LOGIN}>
+          {
+            login => (
+              <div className="flex mt3">
+                <div className="pointer mr2 button" onClick={this._handleLogin(login)}>
+                  {isLoggedIn ? 'logout' : 'login'}
+                </div>
+              </div>
+            )
+          }
+        </Mutation>
       </div>
     );
   }

@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
@@ -6,7 +7,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from './styles/muiTheme';
 import { App } from './containers';
 import ApolloClient from './apollo';
-
 
 const Root = () => (
   <MuiThemeProvider theme={theme}>
