@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt');
+
 exports.typeDef = `
   extend type Query {
     user(user_id: String!): User
@@ -52,10 +54,12 @@ exports.resolver = {
       { userInput },
       { db },
     ) => {
+      console.log('ff');
       const { user_id, password, username, phone, email, zip_code, address } = userInput;
+      const hashed_password = await bcrypt.hash(password, 10);
       const { rows } = await db.query(
         'INSERT INTO public.user (user_id, password, username, phone, email, zip_code, address ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [user_id, password, username, phone, email, zip_code, address],
+        [user_id, hashed_password, username, phone, email, zip_code, address],
       );
       return {
         user: rows[0],

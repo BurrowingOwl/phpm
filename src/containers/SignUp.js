@@ -10,7 +10,9 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 const SIGNUP = gql`
   mutation SignUp($userInput: SignupInput) {
     signup(userInput: $userInput) {
-      user
+      user {
+        user_id
+      }
     }
   }
 `;

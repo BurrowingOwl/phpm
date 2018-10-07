@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
   const handleInvalid = () => {
     res.clearCookie('jwt');
     req.userId = null;
-    return next();
+    next();
   };
   if (!token) {
     return handleInvalid();
