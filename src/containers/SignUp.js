@@ -52,7 +52,7 @@ class SignUp extends Component {
     const { token } =  data.login;
     this._saveUserData(token);
   }
-  validation = (isExistUser) => {
+  validation = async (isExistUser) => {
     const { user_id, password, password_confirm, username, phone, email, zip_code, road_address, address_detail } = this.state;
     const defaultError = {
       user_id: '',
@@ -67,31 +67,28 @@ class SignUp extends Component {
       address_detail: '',
     };
     const newError = {};
-    return new Promise((res) => {
-      isExistUser().then((result) => {
-        if (result.data.isExistUser) newError.user_id = '이미 존재하는 회원 ID 입니다.';
-        if (password !== password_confirm) newError.password = '비밀번호와 비밀번호 확인이 일치하지 않습니다';
-        const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-        if (!phone.match(phoneRegex)) newError.phone = '전화번호가 올바르게 입력되지 않았습니다';
-        const emailRegex = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        if (!email.match(emailRegex)) newError.email = '이메일이 올바르게 입력되지 않았습니다';
-        if (user_id.length === 0) newError.user_id = '아이디를 입력해주세요';
-        if (password.length === 0) newError.password = '비밀번호를 입력해주세요';
-        if (password_confirm.length === 0) newError.password_confirm = '비밀번호 확인을 입력해주세요';
-        if (username.length === 0) newError.username = '이름을 입력해주세요';
-        if (phone.length === 0) newError.phone = '전화번호를 입력해주세요';
-        if (email.length === 0) newError.email = '이메일을 입력해주세요';
-        if (zip_code.length === 0) newError.zip_code = '우편번호 입력해주세요';
-        if (road_address.length === 0) newError.road_address = '주소를 입력해주세요';
-        if (address_detail.length === 0) newError.address_detail = '상세주소를 입력해주세요';
+    const result = await isExistUser();
+    if (result.data.isExistUser) newError.user_id = '이미 존재하는 회원 ID 입니다.';
+    if (password !== password_confirm) newError.password = '비밀번호와 비밀번호 확인이 일치하지 않습니다';
+    const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+    if (!phone.match(phoneRegex)) newError.phone = '전화번호가 올바르게 입력되지 않았습니다';
+    const emailRegex = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    if (!email.match(emailRegex)) newError.email = '이메일이 올바르게 입력되지 않았습니다';
+    if (user_id.length === 0) newError.user_id = '아이디를 입력해주세요';
+    if (password.length === 0) newError.password = '비밀번호를 입력해주세요';
+    if (password_confirm.length === 0) newError.password_confirm = '비밀번호 확인을 입력해주세요';
+    if (username.length === 0) newError.username = '이름을 입력해주세요';
+    if (phone.length === 0) newError.phone = '전화번호를 입력해주세요';
+    if (email.length === 0) newError.email = '이메일을 입력해주세요';
+    if (zip_code.length === 0) newError.zip_code = '우편번호 입력해주세요';
+    if (road_address.length === 0) newError.road_address = '주소를 입력해주세요';
+    if (address_detail.length === 0) newError.address_detail = '상세주소를 입력해주세요';
 
-        if (Object.keys(newError).length > 0) {
-          this.setState({ error: Object.assign(defaultError, newError) });
-          return res(false);
-        }
-        return res(true);
-      });
-    });
+    if (Object.keys(newError).length > 0) {
+      this.setState({ error: Object.assign(defaultError, newError) });
+      return false;
+    }
+    return true;
   }
   execDaumPostcode = () => {
     new daum.Postcode({
@@ -122,9 +119,8 @@ class SignUp extends Component {
   handleSignUp = (isExistUser, signup) => async () => {
     const { user_id, password, username, phone, email, zip_code, road_address, address_detail } = this.state;
     const address = road_address + address_detail;
-    let res = await !this.validation(isExistUser);
-    if (res) return;
-    console.log(res);
+    const isValid = await this.validation(isExistUser);
+    if (!isValid) return;
     signup({ variables: { userInput: { user_id, password, username, phone, email, zip_code, address } } });
   }
 

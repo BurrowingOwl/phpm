@@ -29,7 +29,8 @@ module.exports = function setupDev(app) {
     fs.readFile(path.join(outputPath, 'index.html'), (err, file) => {
       if (err) {
         res.sendStatus(404);
-      } else {
+      }
+      else {
         res.send(file.toString());
       }
     });
