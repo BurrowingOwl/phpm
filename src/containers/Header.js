@@ -59,6 +59,9 @@ class Header extends React.Component {
                 <Link to="signup" style={{ textDecoration: 'none' }}>
                   <Button>회원가입</Button>
                 </Link>
+                <Link to="devicelist" style={{ textDecoration: 'none' }}>
+                  <Button>리스트</Button>
+                </Link>
                 <Button>마이 페이지</Button>
                 <div style={{ flexGrow: 1 }} />
                 <Search />

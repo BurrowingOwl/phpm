@@ -4,7 +4,7 @@ import { Router } from '@reach/router';
 import { hot } from 'react-hot-loader';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Header, Login, SignUp } from '.';
+import { Header, Login, SignUp, DeviceList } from '.';
 import { Logo } from '../components';
 
 const GET_USERS = gql`
@@ -75,6 +75,7 @@ const App = () => (
             <Home path="/" />
             <Login path="/login" />
             <SignUp path="/signup" />
+            <DeviceList path="/devicelist" />
           </Router>
         </VerifyUser>
       )
