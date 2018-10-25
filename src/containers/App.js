@@ -4,7 +4,8 @@ import { Router } from '@reach/router';
 import { hot } from 'react-hot-loader';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Header, Login, SignUp, DeviceList } from '.';
+import styled from 'styled-components';
+import { Header, Login, SignUp, DeviceDetail, DeviceList } from '.';
 import { Logo } from '../components';
 
 const GET_USERS = gql`
@@ -20,6 +21,9 @@ const VERIFY_USER = gql`
   mutation VerifyUser {
     verify @client
   }
+`;
+const MainContainer = styled.div`
+  margin-top: 1rem;
 `;
 const Home = () => (
   <Query query={GET_USERS}>
@@ -40,11 +44,10 @@ const Home = () => (
 class VerifyUser extends React.Component {
   state = {
     verified: false,
-  }
+  };
   componentDidMount() {
     const { verifyUser } = this.props;
-    verifyUser()
-      .then(() => this.setState({ verified: true }));
+    verifyUser().then(() => this.setState({ verified: true }));
   }
   render() {
     const { verified } = this.state;
@@ -52,11 +55,7 @@ class VerifyUser extends React.Component {
     if (!verified) {
       return null;
     }
-    return (
-      <div>
-        {children}
-      </div>
-    );
+    return <div>{children}</div>;
   }
 }
 VerifyUser.propTypes = {
@@ -66,20 +65,21 @@ VerifyUser.propTypes = {
 
 const App = () => (
   <Mutation mutation={VERIFY_USER}>
-    {
-      verifyUser => (
-        <VerifyUser verifyUser={verifyUser}>
-          <Header />
-          <Logo />
-          <Router>
+    {verifyUser => (
+      <VerifyUser verifyUser={verifyUser}>
+        <Header />
+        <Logo />
+        <Router>
+          <MainContainer path="/">
             <Home path="/" />
             <Login path="/login" />
             <SignUp path="/signup" />
+            <DeviceDetail path="device/:deviceId" />
             <DeviceList path="/devicelist" />
-          </Router>
-        </VerifyUser>
-      )
-    }
+          </MainContainer>
+        </Router>
+      </VerifyUser>
+    )}
   </Mutation>
 );
 

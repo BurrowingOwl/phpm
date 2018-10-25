@@ -14,7 +14,6 @@ const GET_DEVICES = gql`
 `;
 
 class DeviceList extends Component {
-
   render() {
     return (
       <Query query={GET_DEVICES}>
@@ -25,7 +24,10 @@ class DeviceList extends Component {
           return (
             <ul>
               {data.devices.map(device => (
-                <li key={device.device_name}>[{device.manufacturer}]{device.device_name} - ${device.factory_price}</li>
+                <li key={device.device_name}>
+                  [{device.manufacturer}]{device.device_name} - $
+                  {device.factory_price}
+                </li>
               ))}
             </ul>
           );
