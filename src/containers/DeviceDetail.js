@@ -50,7 +50,7 @@ const DeviceDetail = ({ deviceId }) => (
 );
 
 DeviceDetail.propTypes = {
-  deviceId: PropTypes.string.isRequired,
+  deviceId: PropTypes.string,
 };
 
 export default DeviceDetail;

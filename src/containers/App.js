@@ -2,21 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Router } from '@reach/router';
 import { hot } from 'react-hot-loader';
-import { Query, Mutation } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { Header, Login, SignUp, DeviceDetail, DeviceList } from '.';
+import { Home, Header, Login, SignUp, DeviceDetail, DeviceList } from '.';
 import { Logo } from '../components';
 
-const GET_USERS = gql`
-  {
-    users {
-      user_id
-      username
-      password
-    }
-  }
-`;
 const VERIFY_USER = gql`
   mutation VerifyUser {
     verify @client
@@ -25,22 +16,7 @@ const VERIFY_USER = gql`
 const MainContainer = styled.div`
   margin-top: 1rem;
 `;
-const Home = () => (
-  <Query query={GET_USERS}>
-    {({ data, loading, error }) => {
-      if (error) return <div>Error! {error.message}</div>;
-      if (loading) return <div>...loading</div>;
 
-      return (
-        <ul>
-          {data.users.map(user => (
-            <li key={user.user_id}>{user.username}</li>
-          ))}
-        </ul>
-      );
-    }}
-  </Query>
-);
 class VerifyUser extends React.Component {
   state = {
     verified: false,
