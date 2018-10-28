@@ -48,10 +48,7 @@ class SignUp extends Component {
       address_detail: '',
     },
   }
-  _confirm = async data => {
-    const { token } =  data.login;
-    this._saveUserData(token);
-  }
+
   validation = async (isExistUser) => {
     const { user_id, password, password_confirm, username, phone, email, zip_code, road_address, address_detail } = this.state;
     const defaultError = {

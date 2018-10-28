@@ -5,6 +5,8 @@ import DeviceDetailSelect from './DeviceDetailSelect';
 import Logo from './Logo';
 import Search from './Search';
 import SelectField from './SelectField';
+import DeviceThumb from './DeviceThumb';
+import Overlay from './Overlay';
 
 export {
   BannerImage,
@@ -13,5 +15,7 @@ export {
   DeviceDetailSelect,
   Logo,
   Search,
-  SelectField
+  SelectField,
+  DeviceThumb,
+  Overlay
 };

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-// TODO: 모듈화
+import Grid from '@material-ui/core/Grid';
+import { DeviceThumb } from '../components';
 
 const GET_DEVICES = gql`
   {
@@ -9,6 +10,7 @@ const GET_DEVICES = gql`
       device_name
       manufacturer
       factory_price
+      vendors
     }
   }
 `;
@@ -22,14 +24,13 @@ class DeviceList extends Component {
           if (loading) return <div>...loading</div>;
 
           return (
-            <ul>
-              {data.devices.map(device => (
-                <li key={device.device_name}>
-                  [{device.manufacturer}]{device.device_name} - $
-                  {device.factory_price}
-                </li>
+            <Grid container spacing={24}>
+              {data.devices.map((info, i) => (
+                <Grid item xs={4} key={`device_thumb_${i}`}>
+                  <DeviceThumb info={info} />
+                </Grid>
               ))}
-            </ul>
+            </Grid>
           );
         }}
       </Query>

@@ -16,10 +16,7 @@ class Login extends Component {
     user_id: '',
     password: '',
   }
-  _confirm = async data => {
-    const { token } =  data.login;
-    this._saveUserData(token);
-  }
+
   _handleLogin = (login) => async () => {
     const { user_id, password } = this.state;
     try {
