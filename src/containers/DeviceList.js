@@ -7,6 +7,7 @@ import { DeviceThumb } from '../components';
 const GET_DEVICES = gql`
   {
     devices {
+      device_id
       device_name
       manufacturer
       factory_price

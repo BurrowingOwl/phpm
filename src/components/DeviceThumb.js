@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from '@material-ui/core/styles';
+import { navigate } from "@reach/router";
 import { Overlay } from '.';
 
 const styles = {
@@ -26,7 +27,10 @@ class DeviceThumb extends Component {
     const { info, classes } = this.props;
     return (
       <Card>
-        <CardActionArea className={classes.cardActionArea}>
+        <CardActionArea
+          className={classes.cardActionArea}
+          onClick={() => { navigate(`device/${info.device_id}`); }}
+        >
           <div className={classes.mediaContainer}>
             <CardMedia
               className={classes.cardMedia}

@@ -38,7 +38,7 @@ const Overlay = ({ classes, deviceName, factoryPrice, manufacturer }) => (
 Overlay.propTypes = {
   classes: PropTypes.object.isRequired,
   deviceName: PropTypes.string,
-  factoryPrice: PropTypes.string,
+  factoryPrice: PropTypes.number,
   manufacturer: PropTypes.string,
 };
 
