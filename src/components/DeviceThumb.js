@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from '@material-ui/core/styles';
-import { navigate } from "@reach/router";
+import { navigate } from '@reach/router';
 import { Overlay } from '.';
 
 const styles = {

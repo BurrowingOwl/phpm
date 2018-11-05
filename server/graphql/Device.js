@@ -1,7 +1,7 @@
 exports.typeDef = `
   extend type Query {
     device(device_id: String!): Device
-    devices: [Device]
+    devices(page_num: Int!): [Device]
   }
   type Device {
     device_id: String!
@@ -27,8 +27,8 @@ exports.resolver = {
       }
       throw new Error('Fail to find device');
     },
-    devices: async (_, __, { db }) => {
-      const res = await db.query('SELECT * FROM public.device');
+    devices: async (_, { page_num }, { db }) => {
+      const res = await db.query(`SELECT * FROM public.device LIMIT 12 OFFSET ${page_num * 12}`);
       return res.rows;
     },
   },

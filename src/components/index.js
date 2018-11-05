@@ -7,6 +7,7 @@ import Search from './Search';
 import SelectField from './SelectField';
 import DeviceThumb from './DeviceThumb';
 import Overlay from './Overlay';
+import Pagination from './Pagination';
 
 export {
   BannerImage,
@@ -17,5 +18,6 @@ export {
   Search,
   SelectField,
   DeviceThumb,
-  Overlay
+  Overlay,
+  Pagination
 };
