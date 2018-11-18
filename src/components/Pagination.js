@@ -22,7 +22,7 @@ const styles = theme => ({
 
 class Pagination extends React.Component {
   render() {
-    const { classes, page, handlePage } = this.props;
+    const { classes, page, handlePage, lastPage } = this.props;
     return (
       <div className={classes.root}>
         <IconButton
@@ -42,12 +42,14 @@ class Pagination extends React.Component {
         <span className={classes.pagenum}>{page}</span>
         <IconButton
           onClick={() => handlePage(page + 1)}
+          disabled={page === lastPage}
           aria-label="Next Page"
         >
           <KeyboardArrowRight />
         </IconButton>
         <IconButton
-          onClick={() => handlePage(page + 1)}
+          onClick={() => handlePage(lastPage)}
+          disabled={page === lastPage}
           aria-label="Last Page"
         >
           <LastPageIcon />
@@ -62,5 +64,6 @@ export default withStyles(styles)(Pagination);
 Pagination.propTypes = {
   classes: PropTypes.object.isRequired,
   handlePage: PropTypes.func.isRequired,
+  lastPage: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
 };

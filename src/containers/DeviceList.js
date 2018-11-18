@@ -15,38 +15,61 @@ const GET_DEVICES = gql`
     }
   }
 `;
+const NUM_OF_DEVICES = gql`
+  query NumOfDevices {
+    numOfDevices {
+      count
+    }
+  }
+`;
+
 
 class DeviceList extends Component {
   state = {
-    pageNum: 1,
-  }
-
-  handlePage = (page) => {
-    this.setState({ pageNum: page });
+    pageNum: 0,
   }
 
   render() {
     const { pageNum } = this.state;
     return (
-      <Query
-        query={GET_DEVICES}
-        variables={{ page_num: pageNum }}
-      >
-        {({ data, loading, error }) => {
-          if (error) return <div>Error! {error.message}</div>;
-          if (loading) return <div>...loading</div>;
-
+      <Query query={NUM_OF_DEVICES}>
+        {({ data: { numOfDevices } }) => {
+          if (!numOfDevices) return null;
           return (
-            <React.Fragment>
-              <Grid container spacing={24}>
-                {data.devices.map((info, i) => (
-                  <Grid item xs={4} key={`device_thumb_${i}`}>
-                    <DeviceThumb info={info} />
-                  </Grid>
-                ))}
-              </Grid>
-              <Pagination handlePage={this.handlePage} page={pageNum} />
-            </React.Fragment>
+            <Query
+              query={GET_DEVICES}
+              variables={{ page_num: pageNum }}
+            >
+              {({ data, fetchMore, error }) => {
+                if (error) return <div>Error! {error.message}</div>;
+                if (!data.devices) return null;
+                return (
+                  <React.Fragment>
+                    <Grid container spacing={24}>
+                      {data.devices.map((info, i) => (
+                        <Grid item xs={4} key={`device_thumb_${i}`}>
+                          <DeviceThumb info={info} />
+                        </Grid>
+                      ))}
+                    </Grid>
+                    <Pagination
+                      handlePage={(i) => {
+                        fetchMore({
+                          variables: {
+                            page_num: i,
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
+                            return fetchMoreResult.devices;
+                          },
+                        });
+                        this.setState({ pageNum: i });
+                      }} page={pageNum} lastPage={parseInt(numOfDevices.count / 12, 10)}
+                    />
+                  </React.Fragment>
+                );
+              }}
+            </Query>
           );
         }}
       </Query>

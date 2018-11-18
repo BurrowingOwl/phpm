@@ -43,7 +43,7 @@ class DeviceThumb extends Component {
             <Typography component="span">
               [{info.vendors.toString()}]
             </Typography>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography gutterBottom component="h2">
               {info.device_name}
             </Typography>
             <Typography component="p">

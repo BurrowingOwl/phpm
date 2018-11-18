@@ -2,6 +2,7 @@ exports.typeDef = `
   extend type Query {
     device(device_id: String!): Device
     devices(page_num: Int!): [Device]
+    numOfDevices: Number
   }
   type Device {
     device_id: String!
@@ -12,6 +13,9 @@ exports.typeDef = `
     manufacturer: String!
     vendors: [String]!
     storages: [String]!
+  },
+  type Number {
+    count: Int!
   }
 `;
 
@@ -31,5 +35,9 @@ exports.resolver = {
       const res = await db.query(`SELECT * FROM public.device LIMIT 12 OFFSET ${page_num * 12}`);
       return res.rows;
     },
+    numOfDevices: async (_, __, { db }) => {
+      const res = await db.query('select count(*) from public.device');
+      return res.rows[0];
+    }
   },
 };
