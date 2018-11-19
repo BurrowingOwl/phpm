@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { navigate } from '@reach/router';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
+import Button from '@material-ui/core/Button';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import VpnKey from '@material-ui/icons/VpnKey';
 // TODO: 모듈화
 
 // 타입지정이 별 의미 없는 듯
@@ -19,43 +24,60 @@ class Login extends Component {
 
   _handleLogin = (login) => async () => {
     const { user_id, password } = this.state;
+    console.log(user_id, password);
     try {
       await login({ variables: { user_id, password } });
       navigate('/');
     }
     catch (err) {
+      console.log(err);
       // error handling
     }
   }
   render() {
-    const { isLoggedIn, user_id, password } = this.state;
     return (
       <div>
-        <div>
-          <input
-            value={user_id}
-            onChange={e => this.setState({ user_id: e.target.value })}
-            type="text"
-            placeholder="Your user name"
-          />
-          <input
-            value={password}
-            onChange={e => this.setState({ password: e.target.value })}
-            type="password"
-            placeholder="Your password"
-          />
+        <div style={{ flexGrow: 1, maxWidth: 600, margin: '0 auto' }}>
+          <div>
+            <TextField
+              fullWidth
+              id="input-with-icon-textfield"
+              label="ID"
+              onChange={e => this.setState({ user_id: e.target.value })}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+          <div>
+            <TextField
+              fullWidth
+              id="input-with-icon-textfield"
+              label="비밀번호"
+              onChange={e => this.setState({ password: e.target.value })}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <VpnKey />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+          <Mutation mutation={LOCAL_LOGIN}>
+            {
+              login => (
+                <Button variant="contained" color="primary" onClick={this._handleLogin(login)} fullWidth>
+                  Login
+                </Button>
+              )
+            }
+          </Mutation>
         </div>
-        <Mutation mutation={LOCAL_LOGIN}>
-          {
-            login => (
-              <div className="flex mt3">
-                <div className="pointer mr2 button" onClick={this._handleLogin(login)}>
-                  {isLoggedIn ? 'logout' : 'login'}
-                </div>
-              </div>
-            )
-          }
-        </Mutation>
       </div>
     );
   }

@@ -40,12 +40,12 @@ class DeviceList extends Component {
               query={GET_DEVICES}
               variables={{ page_num: pageNum }}
             >
-              {({ data, fetchMore, error }) => {
+              {({ data, error }) => {
                 if (error) return <div>Error! {error.message}</div>;
                 if (!data.devices) return null;
                 return (
                   <React.Fragment>
-                    <Grid container spacing={24}>
+                    <Grid container spacing={24} style={{ maxWidth: 750, margin: '0 auto' }}>
                       {data.devices.map((info, i) => (
                         <Grid item xs={4} key={`device_thumb_${i}`}>
                           <DeviceThumb info={info} />
@@ -54,15 +54,6 @@ class DeviceList extends Component {
                     </Grid>
                     <Pagination
                       handlePage={(i) => {
-                        fetchMore({
-                          variables: {
-                            page_num: i,
-                          },
-                          updateQuery: (prev, { fetchMoreResult }) => {
-                            if (!fetchMoreResult) return prev;
-                            return fetchMoreResult.devices;
-                          },
-                        });
                         this.setState({ pageNum: i });
                       }} page={pageNum} lastPage={parseInt(numOfDevices.count / 12, 10)}
                     />
