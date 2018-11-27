@@ -5,7 +5,7 @@ import { hot } from 'react-hot-loader';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { Home, Header, Login, SignUp, DeviceDetail, DeviceList } from '.';
+import { Home, Header, Login, SignUp, DeviceDetail, DeviceList, Drawer } from '.';
 import { Logo } from '../components';
 
 const VERIFY_USER = gql`
@@ -45,6 +45,7 @@ const App = () => (
       <VerifyUser verifyUser={verifyUser}>
         <Header />
         <Logo />
+        <Drawer />
         <Router>
           <MainContainer path="/">
             <Home path="/" />

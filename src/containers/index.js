@@ -6,5 +6,6 @@ import Login from './Login';
 import SignUp from './SignUp';
 import DeviceDetail from './DeviceDetail';
 import DeviceList from './DeviceList';
+import Drawer from './Drawer';
 
-export { App, Banner, Header, Home, Login, SignUp, DeviceDetail, DeviceList };
+export { App, Banner, Header, Home, Login, SignUp, DeviceDetail, DeviceList, Drawer };
