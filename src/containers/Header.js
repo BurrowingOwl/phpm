@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Search } from '../components';
+import { Drawer } from '.';
 
 const GET_LOGIN_STATE = gql`
   {
@@ -65,6 +66,7 @@ class Header extends React.Component {
                 <Button>마이 페이지</Button>
                 <div style={{ flexGrow: 1 }} />
                 <Search />
+                <Drawer />
               </Toolbar>
             )
           }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import SwipeableDrawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,23 +9,24 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const styles = {
   drawer: {
     position: 'relative',
   },
   list: {
-    width: 250,
+    width: 280,
   },
   fullList: {
     width: 'auto',
   },
   fab: {
     position: 'fixed',
-    bottom: '30%',
-    right: 30,
+    top: 0,
+    right: 0,
     zIndex: 10,
     WebkitTransform: 'translateZ(0)',
   },
@@ -44,11 +45,6 @@ class Drawer extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const addButton = (
-      <Button onClick={this.toggleDrawer} color="primary" variant="fab" className={classes.fab}>
-        <AddIcon />
-      </Button>
-    );
     const sideList = (
       <div className={classes.list}>
         <List>
@@ -73,13 +69,20 @@ class Drawer extends React.Component {
     const { open } = this.state;
     return (
       <div className={classes.drawer}>
-        { addButton }
+        <IconButton onClick={this.toggleDrawer}>
+          <ChevronRightIcon />
+        </IconButton>
         <SwipeableDrawer
           open={open}
           anchor="right"
-          onClose={this.toggleDrawer}
-          onOpen={this.toggleDrawer}
+          variant="persistent"
         >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={this.toggleDrawer}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
           <div
             tabIndex={0}
             role="button"
