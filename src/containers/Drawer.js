@@ -70,7 +70,7 @@ class Drawer extends React.Component {
     return (
       <div className={classes.drawer}>
         <IconButton onClick={this.toggleDrawer}>
-          <ChevronRightIcon />
+          <ChevronLeftIcon />
         </IconButton>
         <SwipeableDrawer
           open={open}
@@ -79,7 +79,7 @@ class Drawer extends React.Component {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.toggleDrawer}>
-              <ChevronLeftIcon />
+              <ChevronRightIcon />
             </IconButton>
           </div>
           <Divider />
