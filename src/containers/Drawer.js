@@ -25,7 +25,7 @@ const styles = {
   fab: {
     position: 'fixed',
     bottom: '30%',
-    right: 0,
+    right: 30,
     zIndex: 10,
     WebkitTransform: 'translateZ(0)',
   },
