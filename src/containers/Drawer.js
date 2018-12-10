@@ -12,6 +12,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+
 
 const styles = {
   drawer: {
@@ -29,6 +32,9 @@ const styles = {
     right: 0,
     zIndex: 10,
     WebkitTransform: 'translateZ(0)',
+  },
+  card: {
+    width: 280,
   },
 };
 
@@ -66,6 +72,36 @@ class Drawer extends React.Component {
         </List>
       </div>
     );
+    const contactInfo = (
+      <div className={classes.card}>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            CONTEXT
+          </Typography>
+          <Typography component="p">
+            010-8844-1245 / xxxx-xxxx
+          </Typography>
+          <Typography component="p">
+            AM 10:00 - PM 6:00 Everyday
+          </Typography>
+        </CardContent>
+      </div>
+    );
+    const bankInfo = (
+      <div className={classes.card}>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            BANK INFO
+          </Typography>
+          <Typography component="p">
+            우리 1002-182-xxxxxx
+          </Typography>
+          <Typography component="p">
+            예금주 박혁
+          </Typography>
+        </CardContent>
+      </div>
+    );
     const { open } = this.state;
     return (
       <div className={classes.drawer}>
@@ -86,10 +122,12 @@ class Drawer extends React.Component {
           <div
             tabIndex={0}
             role="button"
-            onClick={this.toggleDrawer}
-            onKeyDown={this.toggleDrawer}
           >
             {sideList}
+            <Divider />
+            {contactInfo}
+            <Divider />
+            {bankInfo}
           </div>
         </SwipeableDrawer>
       </div>
