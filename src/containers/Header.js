@@ -63,7 +63,13 @@ class Header extends React.Component {
                 <Link to="devicelist" style={{ textDecoration: 'none' }}>
                   <Button>리스트</Button>
                 </Link>
-                <Button>마이 페이지</Button>
+                {
+                  isLoggedIn && (
+                    <Link to="mypage" style={{ textDecoration: 'none' }}>
+                      <Button>마이 페이지</Button>
+                    </Link>
+                  )
+                }
                 <div style={{ flexGrow: 1 }} />
                 <Search />
                 <Drawer />

@@ -17,7 +17,6 @@ const LOCAL_LOGIN = gql`
 `;
 class Login extends Component {
   state = {
-    isLoggedIn: false,
     user_id: '',
     password: '',
   }

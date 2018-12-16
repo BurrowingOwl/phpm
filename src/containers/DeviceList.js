@@ -45,7 +45,7 @@ class DeviceList extends Component {
                 if (!data.devices) return null;
                 return (
                   <React.Fragment>
-                    <Grid container spacing={24} style={{ maxWidth: 750, margin: '0 auto' }}>
+                    <Grid container spacing={24} style={{ maxWidth: 1000, margin: '0 auto' }}>
                       {data.devices.map((info, i) => (
                         <Grid item xs={4} key={`device_thumb_${i}`}>
                           <DeviceThumb info={info} />
