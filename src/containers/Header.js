@@ -57,9 +57,13 @@ class Header extends React.Component {
                     </Link>
                   )
                 }
-                <Link to="signup" style={{ textDecoration: 'none' }}>
-                  <Button>회원가입</Button>
-                </Link>
+                {
+                  !isLoggedIn && (
+                    <Link to="signup" style={{ textDecoration: 'none' }}>
+                      <Button>회원가입</Button>
+                    </Link>
+                  )
+                }
                 <Link to="devicelist" style={{ textDecoration: 'none' }}>
                   <Button>리스트</Button>
                 </Link>

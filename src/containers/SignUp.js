@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Mutation } from 'react-apollo';
+import { withStyles } from '@material-ui/core/styles';
 import gql from 'graphql-tag';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 const SIGNUP = gql`
   mutation SignUp($userInput: SignupInput) {
@@ -22,6 +27,14 @@ const ISEXISTUSER = gql`
     isExistUser(user_id: $user_id)
   }
 `;
+
+const styles = {
+  root: {
+    maxWidth: 600,
+    margin: '10px auto',
+    padding: 20,
+  },
+};
 
 class SignUp extends Component {
   state = {
@@ -123,6 +136,7 @@ class SignUp extends Component {
 
   render() {
     const { user_id, password, password_confirm, username, phone, email, email_subscribe, zip_code, road_address, address_detail, error } = this.state;
+    const { classes } = this.props;
     return (
       <Mutation mutation={SIGNUP}>
         {
@@ -130,119 +144,143 @@ class SignUp extends Component {
             <Mutation mutation={ISEXISTUSER} variables={{ user_id }}>
               {
                 (isExistUser) => (
-                  <form autoComplete="off">
-                    <div>
-                      <TextField
-                        id="user_id"
-                        label="아이디"
-                        value={user_id}
-                        onChange={e => this.setState({ user_id: e.target.value })}
-                        margin="normal"
-                        fullWidth={true}
-                      />
-                      { error.user_id && <FormHelperText error={true}>{error.user_id}</FormHelperText>}
-                    </div>
-                    <div>
-                      <TextField
-                        id="password"
-                        label="비밀번호"
-                        value={password}
-                        onChange={e => this.setState({ password: e.target.value })}
-                        margin="normal"
-                        fullWidth={true}
-                      />
-                      { error.password && <FormHelperText error={true}>{error.password}</FormHelperText> }
-                    </div>
-                    <div>
-                      <TextField
-                        id="password_confirm"
-                        label="비밀번호 확인"
-                        value={password_confirm}
-                        onChange={e => this.setState({ password_confirm: e.target.value })}
-                        margin="normal"
-                        fullWidth={true}
-                      />
-                      { error.password_confirm && <FormHelperText error={true}>{error.password_confirm}</FormHelperText> }
-                    </div>
-                    <div>
-                      <TextField
-                        id="name"
-                        label="이름"
-                        value={username}
-                        onChange={e => this.setState({ username: e.target.value })}
-                        margin="normal"
-                        fullWidth={true}
-                      />
-                      { error.username && <FormHelperText error={true}>{error.username}</FormHelperText> }
-                    </div>
-                    <div>
-                      <TextField
-                        id="phone"
-                        label="전화번호"
-                        value={phone}
-                        onChange={e => this.setState({ phone: e.target.value })}
-                        margin="normal"
-                        fullWidth={true}
-                        placeholder="010-0000-0000"
-                      />
-                      { error.phone && <FormHelperText error={true}>{error.phone}</FormHelperText> }
-                    </div>
-                    <div>
-                      <TextField
-                        id="email"
-                        label="이메일"
-                        value={email}
-                        onChange={e => this.setState({ email: e.target.value })}
-                        margin="normal"
-                        fullWidth={true}
-                        placeholder="userId@email.com"
-                      />
-                      { error.email && <FormHelperText error={true}>{error.email}</FormHelperText> }
-                    </div>
-                    <div>
-                      <TextField
-                        id="zip_code"
-                        label="우편번호"
-                        value={zip_code}
-                        onChange={e => this.setState({ zip_code: e.target.value })}
-                        margin="normal"
-                        style={{ marginRight: 20, width: '30%' }}
-                      />
-                      <Button variant="outlined" color="primary" onClick={this.execDaumPostcode}>
-                        우편번호찾기
-                      </Button>
-                      <br />
+                  <Paper className={classes.root}>
+                    <Typography component="h3" variant="h3">회원가입</Typography>
+                    <form autoComplete="off">
+                      <div>
+                        { error.user_id && <FormHelperText error={true}>{error.user_id}</FormHelperText>}
+                        <TextField
+                          id="user_id"
+                          label="아이디"
+                          type="email"
+                          value={user_id}
+                          onChange={e => this.setState({ user_id: e.target.value })}
+                          margin="dense"
+                          variant="outlined"
+                          fullWidth
+                        />
+                      </div>
+                      <Grid container spacing={16}>
+                        <Grid item xs={6}>
+                          { error.password && <FormHelperText error={true}>{error.password}</FormHelperText> }
+                          <TextField
+                            id="password"
+                            label="비밀번호"
+                            value={password}
+                            onChange={e => this.setState({ password: e.target.value })}
+                            margin="dense"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          { error.password_confirm && <FormHelperText error={true}>{error.password_confirm}</FormHelperText> }
+                          <TextField
+                            id="password_confirm"
+                            label="비밀번호 확인"
+                            value={password_confirm}
+                            onChange={e => this.setState({ password_confirm: e.target.value })}
+                            margin="dense"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        </Grid>
+                      </Grid>
+                      <div>
+                        { error.username && <FormHelperText error={true}>{error.username}</FormHelperText> }
+                        <TextField
+                          id="name"
+                          label="이름"
+                          value={username}
+                          onChange={e => this.setState({ username: e.target.value })}
+                          margin="dense"
+                          variant="outlined"
+                          fullWidth
+                        />
+                      </div>
+                      <div>
+                        { error.phone && <FormHelperText error={true}>{error.phone}</FormHelperText> }
+                        <TextField
+                          id="phone"
+                          label="전화번호"
+                          value={phone}
+                          onChange={e => this.setState({ phone: e.target.value })}
+                          margin="dense"
+                          variant="outlined"
+                          fullWidth
+                          placeholder="010-0000-0000"
+                        />
+                      </div>
+                      <div>
+                        { error.email && <FormHelperText error={true}>{error.email}</FormHelperText> }
+                        <TextField
+                          id="email"
+                          label="이메일"
+                          value={email}
+                          onChange={e => this.setState({ email: e.target.value })}
+                          margin="dense"
+                          variant="outlined"
+                          fullWidth
+                          placeholder="userId@email.com"
+                        />
+                      </div>
                       { error.zip_code && <FormHelperText error={true}>{error.zip_code}</FormHelperText> }
-                      <TextField
-                        id="road_address"
-                        label="주소"
-                        value={road_address}
-                        onChange={e => this.setState({ road_address: e.target.value })}
-                        margin="normal"
-                        style={{ marginRight: 20, width: '30%' }}
-                      />
-                      <TextField
-                        id="address_detail"
-                        label="상세주소"
-                        value={address_detail}
-                        onChange={e => this.setState({ address_detail: e.target.value })}
-                        style={{ marginRight: 20, width: '50%' }}
-                      />
-                      <FormHelperText error={true} style={{ marginRight: 20, width: '30%', display: 'inline-block' }}>{error.road_address}</FormHelperText>
-                      <FormHelperText error={true} style={{ marginRight: 20, width: '50%', display: 'inline-block' }}>{error.address_detail}</FormHelperText>
-                    </div>
-                    <div>
-                      <FormControlLabel
-                        control={
-                          <Switch disableRipple checked={email_subscribe} onChange={e => this.setState({ email_subscribe: e.target.checked })} value="checkedB" />
-                        }
-                        label="이메일 수신여부"
-                      />
-                    </div>
-                    <Button variant="outlined" color="primary" onClick={this.handleSignUp(isExistUser, signUp)}>
-                      회원가입
-                    </Button>
-                  </form>
+                      <Grid container spacing={16}>
+                        <Grid item xs={4}>
+                          <TextField
+                            id="zip_code"
+                            label="우편번호"
+                            value={zip_code}
+                            onChange={e => this.setState({ zip_code: e.target.value })}
+                            margin="dense"
+                            variant="outlined"                            
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Button variant="outlined" color="primary" onClick={this.execDaumPostcode} style={{ marginTop: '16px' }}>
+                            우편번호찾기
+                          </Button>
+                        </Grid>
+                      </Grid>
+                      <Grid container spacing={16}>
+                        <Grid item xs={4}>
+                          { error.road_address && <FormHelperText error={true}>{error.road_address}</FormHelperText> }
+                          <TextField
+                            id="road_address"
+                            label="주소"
+                            value={road_address}
+                            onChange={e => this.setState({ road_address: e.target.value })}
+                            margin="dense"
+                            variant="outlined"
+                            fullWidth
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          { error.address_detail && <FormHelperText error={true}>{error.address_detail}</FormHelperText> }
+                          <TextField
+                            id="address_detail"
+                            label="상세주소"
+                            value={address_detail}
+                            margin="dense"
+                            variant="outlined"
+                            onChange={e => this.setState({ address_detail: e.target.value })}
+                            fullWidth
+                          />
+                        </Grid>
+                      </Grid>
+                      <div>
+                        <FormControlLabel
+                          control={
+                            <Switch disableRipple checked={email_subscribe} onChange={e => this.setState({ email_subscribe: e.target.checked })} value="checkedB" />
+                          }
+                          label="이메일 수신여부"
+                        />
+                      </div>
+                      <Button variant="outlined" color="primary" onClick={this.handleSignUp(isExistUser, signUp)} fullWidth>
+                        회원가입
+                      </Button>
+                    </form>
+                  </Paper>
                 )
               }
             </Mutation>
@@ -252,4 +290,9 @@ class SignUp extends Component {
     );
   }
 }
-export default SignUp;
+
+SignUp.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(SignUp);

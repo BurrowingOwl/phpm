@@ -7,6 +7,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import VpnKey from '@material-ui/icons/VpnKey';
+import Paper from '@material-ui/core/Paper';
 // TODO: 모듈화
 
 // 타입지정이 별 의미 없는 듯
@@ -35,49 +36,51 @@ class Login extends Component {
   }
   render() {
     return (
-      <div>
-        <div style={{ flexGrow: 1, maxWidth: 600, margin: '0 auto' }}>
-          <div>
-            <TextField
-              fullWidth
-              id="input-with-icon-textfield"
-              label="ID"
-              onChange={e => this.setState({ user_id: e.target.value })}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
-          <div>
-            <TextField
-              fullWidth
-              id="input-with-icon-textfield"
-              label="비밀번호"
-              onChange={e => this.setState({ password: e.target.value })}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <VpnKey />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
-          <Mutation mutation={LOCAL_LOGIN}>
-            {
-              login => (
-                <Button variant="contained" color="primary" onClick={this._handleLogin(login)} fullWidth>
-                  Login
-                </Button>
-              )
-            }
-          </Mutation>
+      <Paper style={{ flexGrow: 1, maxWidth: 600, margin: '0 auto', padding: 20, marginTop: 50 }}>
+        <div>
+          <TextField
+            fullWidth
+            id="input-with-icon-textfield"
+            label="ID"
+            onChange={e => this.setState({ user_id: e.target.value })}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccountCircle />
+                </InputAdornment>
+              ),
+            }}
+          />
         </div>
-      </div>
+        <div>
+          <TextField
+            fullWidth
+            id="input-with-icon-textfield"
+            label="비밀번호"
+            onChange={e => this.setState({ password: e.target.value })}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <VpnKey />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </div>
+        <Mutation mutation={LOCAL_LOGIN}>
+          {
+            login => (
+              <Button
+                variant="contained"
+                color="primary" onClick={this._handleLogin(login)} fullWidth
+                style={{ marginTop: 50 }}
+              >
+                Login
+              </Button>
+            )
+          }
+        </Mutation>
+      </Paper>
     );
   }
 }
