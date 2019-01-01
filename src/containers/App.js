@@ -5,7 +5,7 @@ import { hot } from 'react-hot-loader';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
-import { Home, Header, Login, SignUp, DeviceDetail, DeviceList, MyPage } from '.';
+import { Home, Header, Login, SignUp, DeviceDetail, DeviceList, MyPage, Menu } from '.';
 import { Logo } from '../components';
 
 const VERIFY_USER = gql`
@@ -14,7 +14,7 @@ const VERIFY_USER = gql`
   }
 `;
 const MainContainer = styled.div`
-  margin-top: 1rem;
+  
 `;
 
 class VerifyUser extends React.Component {
@@ -45,6 +45,7 @@ const App = () => (
       <VerifyUser verifyUser={verifyUser}>
         <Header />
         <Logo />
+        <Menu />
         <Router>
           <MainContainer path="/">
             <Home path="/" />

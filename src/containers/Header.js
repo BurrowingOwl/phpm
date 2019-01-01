@@ -5,10 +5,17 @@ import { Link, navigate } from '@reach/router';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 import { Search } from '../components';
 import { Drawer } from '.';
+
+const styles = {
+  container: {
+    borderBottom: '1px solid #eee',
+    boxShadow: 'none',
+  },
+}
 
 const GET_LOGIN_STATE = gql`
   {
@@ -30,15 +37,13 @@ class Header extends React.Component {
     navigate('/');
   }
   render() {
+    const { classes } = this.props;
     return (
-      <AppBar color="inherit" position="static">
+      <AppBar color="inherit" position="fixed" className={classes.container}>
         <Query query={GET_LOGIN_STATE}>
           {
             ({ data: { loginStatus: { username, isLoggedIn } } }) => (
               <Toolbar variant="dense">
-                <IconButton>
-                  <MenuIcon />
-                </IconButton>
                 {
                   isLoggedIn ? (
                     <Mutation mutation={LOGOUT}>
@@ -86,4 +91,8 @@ class Header extends React.Component {
   }
 }
 
-export default Header;
+Header.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Header);

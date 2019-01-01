@@ -12,7 +12,6 @@ import ApolloClient from './apollo';
 injectGlobal([`
   html, body {
     height: 100%;
-    overflow: auto;
   }
 `]);
 

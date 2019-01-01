@@ -8,5 +8,6 @@ import DeviceDetail from './DeviceDetail';
 import DeviceList from './DeviceList';
 import Drawer from './Drawer';
 import MyPage from './MyPage';
+import Menu from './Menu';
 
-export { App, Banner, Header, Home, Login, SignUp, DeviceDetail, DeviceList, Drawer, MyPage };
+export { App, Banner, Header, Home, Login, SignUp, DeviceDetail, DeviceList, Drawer, MyPage, Menu };
