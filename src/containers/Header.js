@@ -15,7 +15,7 @@ const styles = {
     borderBottom: '1px solid #eee',
     boxShadow: 'none',
   },
-}
+};
 
 const GET_LOGIN_STATE = gql`
   {

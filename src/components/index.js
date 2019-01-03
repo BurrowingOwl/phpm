@@ -8,6 +8,7 @@ import SelectField from './SelectField';
 import DeviceThumb from './DeviceThumb';
 import Overlay from './Overlay';
 import Pagination from './Pagination';
+import OrderSummary from './OrderSummary';
 
 export {
   BannerImage,
@@ -19,5 +20,6 @@ export {
   SelectField,
   DeviceThumb,
   Overlay,
-  Pagination
+  Pagination,
+  OrderSummary
 };

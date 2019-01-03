@@ -4,13 +4,10 @@ import Divider from '@material-ui/core/Divider';
 import { BaseField, SelectField } from '.';
 
 class DeviceDetailSelect extends React.PureComponent {
-  state = {
-    vendor: '',
-    storage: '',
-    color: '',
-  };
   static propTypes = {
     device: PropTypes.object.isRequired,
+    handleSelect: PropTypes.func.isRequired,
+    options: PropTypes.object.isRequired,
   };
   handleSelect = field => value => {
     this.setState({
@@ -18,8 +15,9 @@ class DeviceDetailSelect extends React.PureComponent {
     });
   };
   render() {
-    const { vendor, storage, color } = this.state;
-    const { device } = this.props;
+    const { device, handleSelect, options } = this.props;
+    const { vendor, storage, color } = options;
+
     return (
       <>
         <h2>{device.device_name}</h2>
@@ -35,7 +33,7 @@ class DeviceDetailSelect extends React.PureComponent {
             value: item,
             label: item,
           }))}
-          onSelect={this.handleSelect('vendor')}
+          onSelect={handleSelect('vendor')}
         />
         <SelectField
           placeholder="[필수] 색상 선택"
@@ -45,7 +43,7 @@ class DeviceDetailSelect extends React.PureComponent {
             value: item,
             label: item,
           }))}
-          onSelect={this.handleSelect('color')}
+          onSelect={handleSelect('color')}
         />
         <SelectField
           placeholder="[필수] 용량 선택"
@@ -55,7 +53,7 @@ class DeviceDetailSelect extends React.PureComponent {
             value: item,
             label: item,
           }))}
-          onSelect={this.handleSelect('storage')}
+          onSelect={handleSelect('storage')}
         />
       </>
     );
